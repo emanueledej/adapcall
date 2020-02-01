@@ -33,49 +33,49 @@
 <script>
 
 const novaLigacao = {
-	id: '',
-	solicitante: '',
-	solicitado: '',
-	urgente: false,
-}
+  id: '',
+  solicitante: '',
+  solicitado: '',
+  urgente: false,
+};
 
 export default {
-	props: ['ligacoes','ligacao'],
-	data() {
-		return {
-			formLigacao: { ...novaLigacao },
-			editando:false,
-		}
-	},
-	mounted(){
-		if (this.ligacao) {
-			this.formLigacao = {...this.ligacao};
-			this.editando = true;
-		} else {
-			this.editando = false;
-		}
-	},
-	methods: {
-		salvar() {
-			// cópia do objeto de primeiro nível ---- todo estudar referências e cópias de objetos em js
-			const ligacaoAInserir = {
-				...this.formLigacao,
-			}
+  props: ['ligacoes', 'ligacao'],
+  data() {
+    return {
+      formLigacao: { ...novaLigacao },
+      editando: false,
+    };
+  },
+  mounted() {
+    if (this.ligacao) {
+      this.formLigacao = { ...this.ligacao };
+      this.editando = true;
+    } else {
+      this.editando = false;
+    }
+  },
+  methods: {
+    salvar() {
+      // cópia do objeto de primeiro nível ---- todo estudar referências e cópias de objetos em js
+      const ligacaoAInserir = {
+        ...this.formLigacao,
+      };
 
-			if (!this.editando) {
-				ligacaoAInserir.id =  this.ligacoes.length + 1;
-				this.$emit('inserir-lista', ligacaoAInserir)
-			} else {
-				this.$emit('atualizar-lista', ligacaoAInserir)
-			}
+      if (!this.editando) {
+        ligacaoAInserir.id = this.ligacoes.length + 1;
+        this.$emit('inserir-lista', ligacaoAInserir);
+      } else {
+        this.$emit('atualizar-lista', ligacaoAInserir);
+      }
 
-			this.formLigacao = { ...novaLigacao }
-		},
-		apagarLista() {
-			this.$emit('setar-lista', [])
-		}
-	}
-}
+      this.formLigacao = { ...novaLigacao };
+    },
+    apagarLista() {
+      this.$emit('setar-lista', []);
+    },
+  },
+};
 </script>
 
 <style>

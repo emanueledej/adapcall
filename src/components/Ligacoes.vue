@@ -5,6 +5,16 @@
 			<th> Solicitante </th>
 			<th> Solicitado </th>
 		</tr>
+		<tr v-show="isLoading">
+			<td>
+				<span>Carregando...</span>
+			</td>
+		</tr>
+		<tr v-show="ligacoes.length === 0 & !isLoading">
+			<td colspan="4">
+				<span>Não há ligações cadastradas!</span>
+			</td>
+		</tr>
 		<tr v-for="(ligacao, indice) in ligacoes" :key="ligacao.id">
 			<td> {{ ligacao.id }} </td>
 			<td> {{ ligacao.solicitante }} </td>
@@ -24,16 +34,16 @@
 
 <script>
 export default {
-	props: ['ligacoes'],
-	methods:{
-		excluir(indice){
-			this.$emit('excluir',indice)
-		},
-		editar(indice){
-			this.$emit('editar',indice)
-		},
-	},
-}
+  props: ['ligacoes','isLoading'],
+  methods: {
+    excluir(indice) {
+      this.$emit('excluir', indice);
+    },
+    editar(indice) {
+      this.$emit('editar', indice);
+    },
+  },
+};
 </script>
 
 <style>
