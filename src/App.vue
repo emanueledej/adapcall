@@ -2,11 +2,17 @@
   <div id="app">
 		<Ligacoes
 			:ligacoes="ligacoes"
+			@excluir="excluir"
+			@editar="editar"
 		/>
+		<button @click="() => mostraFormulario = !mostraFormulario">Motrar formulário</button>
 		<FormLigacao
+			v-if="mostraFormulario"
+			:ligacao="ligacao"
 			:ligacoes="ligacoes"
 			@setar-lista="setarListar"
 			@inserir-lista="inserirLista"
+			@atualizar-lista="atualizarLista"
 		/>
   </div>
 </template>
@@ -23,6 +29,8 @@ export default {
 	},
 	data() {
 		return {
+			ligacao:'',
+			mostraFormulario:false,
 			ligacoes: [
 				{
 					id: 2424,
@@ -45,6 +53,28 @@ export default {
 		},
 		inserirLista(ligacao) {
 			this.ligacoes.push(ligacao)
+		},
+		excluir(indice) {
+			this.ligacoes.splice(indice,1);
+			console.log(indice)
+		},
+		editar(indice) {
+			this.ligacao = this.ligacoes[indice];
+			this.mostraFormulario = false;
+
+			this.$nextTick(() => {
+				this.mostraFormulario = true;
+			});
+			
+			console.log(indice)
+		},
+		atualizarLista(ligacao) {
+			const indice = this.ligacoes.findIndex((lig) => lig.id === ligacao.id);
+			
+			this.ligacoes.splice(indice, 1, ligacao);
+
+			this.mostraFormulario = false;
+			this.ligacao = '';
 		},
 	}
 };

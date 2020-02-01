@@ -1,29 +1,30 @@
 <template>
-	<form @submit.prevent="criarLigacao">
+	<form @submit.prevent="salvar">
+		<div v-if="editando">Você está editando a ligação: {{formLigacao.id}}</div>
 		<fieldset>
 			<legend>Criar Ligação</legend>
-			{{ ligacao }}
+			{{ formLigacao }}
 			<div>
 				Solicitante:
 				<input type="text"
-					v-model="ligacao.solicitante"
+					v-model="formLigacao.solicitante"
 					required
 				>
 			</div>
 			<div>
 				Solicitado:
 				<input type="text"
-					v-model="ligacao.solicitado"
+					v-model="formLigacao.solicitado"
 					required
 				>
 			</div>
 			<div>
 				Urgente:
 				<input type="checkbox"
-					v-model="ligacao.urgente"
+					v-model="formLigacao.urgente"
 				>
 			</div>
-			<button type="submit"> Criar Ligação </button>
+			<button type="submit"> {{ editando ? 'Salvar' : 'Criar Ligação' }} </button>
 			<button type="button" @click="apagarLista"> Apagar Lista </button>
 		</fieldset>
 	</form>
@@ -39,20 +40,36 @@ const novaLigacao = {
 }
 
 export default {
-	props: ['ligacoes'],
+	props: ['ligacoes','ligacao'],
 	data() {
 		return {
-			ligacao: { ...novaLigacao },
+			formLigacao: { ...novaLigacao },
+			editando:false,
+		}
+	},
+	mounted(){
+		if (this.ligacao) {
+			this.formLigacao = {...this.ligacao};
+			this.editando = true;
+		} else {
+			this.editando = false;
 		}
 	},
 	methods: {
-		criarLigacao() {
+		salvar() {
+			// cópia do objeto de primeiro nível ---- todo estudar referências e cópias de objetos em js
 			const ligacaoAInserir = {
-				...this.ligacao,
-				id: this.ligacoes.length,
+				...this.formLigacao,
 			}
-			this.ligacao = { ...novaLigacao }
-			this.$emit('inserir-lista', ligacaoAInserir)
+
+			if (!this.editando) {
+				ligacaoAInserir.id =  this.ligacoes.length + 1;
+				this.$emit('inserir-lista', ligacaoAInserir)
+			} else {
+				this.$emit('atualizar-lista', ligacaoAInserir)
+			}
+
+			this.formLigacao = { ...novaLigacao }
 		},
 		apagarLista() {
 			this.$emit('setar-lista', [])

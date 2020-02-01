@@ -15,5 +15,17 @@
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emanueledej/adapcall.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emanueledej/adapcall/issues"
+  },
+  "homepage": "https://github.com/emanueledej/adapcall#readme"
 }
